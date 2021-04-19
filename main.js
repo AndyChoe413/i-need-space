@@ -12,11 +12,14 @@ searchBtn.addEventListener('click', () => {
     fetch(mapBoxUrl)
         .then(raw => raw.json())
         .then(data => {
-console.log(data)
+            console.log(data)
+
             //grab the longitude and latitude data to use for norad
             const longitude = data.features[0].center[0]
             const latitude = data.features[0].center[1]
             console.log(longitude, latitude)
+
+            console.log(data.features[0].place_name)
 
             //query the norad value
             const norad = document.querySelector('#norad').value
@@ -25,7 +28,7 @@ console.log(data)
             if (Number(norad) === 25544) {
                 const content = document.querySelector('.content')
                 content.style.backgroundImage = 'url(https://media.giphy.com/media/3M9B6dT7CIEzBPzdaj/giphy.gif)'
-                content.style.objectFit = 'fill'
+                
             }
             else if (Number(norad) === 20580) {
                 const content = document.querySelector('.content')
@@ -34,7 +37,7 @@ console.log(data)
             else {
                 const content = document.querySelector('.content')
                 content.style.backgroundImage = 'url(https://media.giphy.com/media/xT9IgooLQOU7thNOr6/giphy.gif)'
-                content.size.backgroundSize = 'cover'
+                
             }
 
             const noradUrl = `https://satellites.fly.dev/passes/${norad}?lat=${latitude}&lon=${longitude}&limit=1&days=15&visible_only=true`
@@ -42,6 +45,8 @@ console.log(data)
             fetch(noradUrl)
                 .then(rawData => rawData.json())
                 .then(data => {
+
+                    
                     
                     const culminate = data[0].culmination.utc_datetime
                     const rise = data[0].rise.utc_datetime
@@ -52,6 +57,8 @@ console.log(data)
                         var newDate = new Date(date);
                         return newDate;
                     }
+
+                    // console.log(data.features[0].place_name)
                 
                     const detailsContainer = document.querySelector('.details-container')
                     detailsContainer.className = 'section details-container'
@@ -62,6 +69,11 @@ console.log(data)
                     heading.className = 'row'
                     heading.innerText = 'Dates & times of the Apocalypse'
                     details.append(heading)
+
+                    // const place = document.createElement('div')
+                    // place.className = 'item'
+                    // place.innerHTML = `<p>Culminate date-time: <br> <br>${convert(culminate)}</p>`
+                    // details.append(place)
 
                     const item1 = document.createElement('div')
                     item1.className = 'item'

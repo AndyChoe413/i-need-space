@@ -18,6 +18,13 @@ h2 {
   margin: 0;
 }
 
+.heading {
+  background-color: whitesmoke;
+  padding: 10px;
+  border-radius: 8px;
+  border: solid hotpink 5px;
+}
+
 .content {
   min-height: 100vh;
   width: 800px;
